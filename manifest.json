@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Timer for Chrome",
+    "version": "0.1.0",
+    "description": "A timer in your browser",
+    "permissions": ["storage", "tabs", "activeTab", "notifications"],
+    "host_permissions": ["<all_urls>"],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/start.png",
+          "assets/pause.png",
+          "assets/reset.png"
+        ],
+        "matches": ["<all_urls>"]
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "assets/timer.png",
+        "24": "assets/timer.png",
+        "32": "assets/timer.png"
+      },
+      "default_title": "Timer for Chrome",
+      "default_popup": "popup.html"
+    }
+}

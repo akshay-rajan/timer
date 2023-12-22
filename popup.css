@@ -1,0 +1,32 @@
+.container {
+    width: 160px;
+    height: 40px;
+    color: #476455;
+}
+
+.icon {
+    width: 17px;
+    height: 17px;
+}
+
+button {
+    background-color: #ffffff;
+    margin-top: 0px;
+    width: 32px;
+    height: 32px;
+    border: none;
+}
+
+input {
+    margin-top: 0;
+    padding-top: 0px;
+    border: none;
+    width: 80px;
+    height: 32px;
+    color: #000000;
+    background-color: rgb(255, 255, 255);
+}
+input::placeholder {
+    opacity: 0.6;
+    color: #00c6fa;
+}
