@@ -4,8 +4,10 @@ Welcome to Timer for Chrome! This extension displays a timer in your browser, wh
 
 ### Chrome Extensions
 
-Chrome extensions are small software programs that customize the browsing experience.
-They enable users to tailor Chrome functionality and behavior to individual needs or preferences. They are built on web technologies such as HTML, CSS and JavaScript. A typical Chrome extension contains
+Chrome extensions are small software programs that customize the browsing experience. 
+They enable users to tailor Chrome functionality and behavior to individual needs or preferences. 
+They are built on web technologies such as HTML, CSS and JavaScript.
+A typical Chrome extension includes
 
 1. A `manifest.json` file, which provides information about the extension to the browser.
 2. An optional `content script`, which reads a web page using the standard document-object model, make changes to the page, or pass information to the extension.
