@@ -1,30 +1,49 @@
-document.getElementById("start").addEventListener("click", startTimer);
-document.getElementById("pause").addEventListener("click", stopTimer);
-document.getElementById("reset").addEventListener("click", resetTimer);
-    
-let timer = document.getElementById("timer");
+const timer = document.getElementById("timer");
+const start = document.getElementById("start");
+const pause = document.getElementById("pause");
+const reset = document.getElementById("reset");
+
+
+start.addEventListener("click", startTimer);
+pause.addEventListener("click", stopTimer);
+reset.addEventListener("click", resetTimer);
 
 
 // ! --- Buttons ---
 
 function startTimer() {
     const duration = timer.value;
-    if (timeToSeconds(duration) <= 0) {
+    if (timeToSeconds(duration) <= 0 || !inputVerify(duration)) {
         return;
     }
     let targetTime = Math.floor((Date.now() / 1000)) + timeToSeconds(duration);
     
     // Send a message to background.js to start the timer
     chrome.runtime.sendMessage({ action: "startTimer", targetTime });
+
+    if (pause.hasAttribute("hidden")) {
+        pause.removeAttribute("hidden");
+        start.setAttribute("hidden", "true");
+    }
 }
 
 function stopTimer() {
     chrome.runtime.sendMessage({ action: "stopTimer" });
+
+    if (start.hasAttribute("hidden")) {
+        start.removeAttribute("hidden");
+        pause.setAttribute("hidden", "true");
+    }
 }
 
 function resetTimer() {
     chrome.runtime.sendMessage({ action: "resetTimer" });
     clearTimer();
+
+    if (start.hasAttribute("hidden")) {
+        start.removeAttribute("hidden");
+        pause.setAttribute("hidden", "true");
+    }
 }
 
 
@@ -57,5 +76,11 @@ function secondsToTime(seconds) {
 // * Clear the timer
 function clearTimer() {
     timer.value = "";    
+}
+
+// * Check whether the timer input is of the right format
+function inputVerify(duration) {
+    const regex = /^(0[0-9]|1[0-2]): ([0-5][0-9]): ([0-5][0-9])$/;
+    return regex.test(duration);
 }
 
