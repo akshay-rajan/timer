@@ -3,25 +3,26 @@ document.getElementById("pause").addEventListener("click", stopTimer);
 document.getElementById("reset").addEventListener("click", resetTimer);
     
 
+let timer = document.getElementById("timer");
+
 
 // * Start the Timer
 function startTimer() {
-
-    let timer = document.getElementById("timer");
     const duration = timer.value;
-    const [hr, min, sec] = duration.split(": ").map(Number);
-    let targetTime = Math.floor((Date.now() / 1000)) + timeToSeconds(hr, min, sec);
+    let targetTime = Math.floor((Date.now() / 1000)) + timeToSeconds(duration);
     
     // ! ------------------- Log -------------------
-    console.log(targetTime);
+    console.log(duration);
+
+    
     
 
     // let timerInterval = setInterval(function () {
-    //     // updateTimer();
+         // updateTimer();
     //     if (targetTime <= Math.floor((Date.now() / 1000))) {
     //         clearInterval(timerInterval);
     //         timerInterval = undefined;
-    //         // updateTimer();
+             // updateTimer();
     //     }
     // }, 1000);
 
@@ -52,9 +53,41 @@ function resetTimer() {
     chrome.runtime.sendMessage({ action: "resetTimer" });
 }
 
+// * Update the timer display
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+
+    if (message.action === "updateTimerDisplay") {
+        timer.value = secondsToTime(message.remainingTime);
+    }
+
+});
+
 
 // ? --- Helper functions ---
 
-function timeToSeconds(hours, minutes, seconds) {
-    return hours * 3600 + minutes * 60 + seconds;
+// * Functions to convert time in the format "hh: mm: ss" to seconds and back
+function timeToSeconds(duration) {
+    const [hr, min, sec] = duration.split(": ").map(Number);
+    return hr * 3600 + min * 60 + sec;
 }
+function secondsToTime(seconds) {
+    const hr = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const min = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const sec = (seconds % 60).toString().padStart(2, "0");
+    return `${hr}: ${min}: ${sec}`;
+}
+
+// * Clear the timer
+function clearInterval() {
+    timer.value = "";    
+}
+
+// // * Update the timer display
+// function updateTimer() {
+//     const remainingTime = Math.max(targetTime - Math.floor((Date.now() / 1000)), 0);
+//     // if (remainingTime === 0) {
+//     //     clearInterval(timerInterval);
+//     //     isRunning = false;
+//     // }
+//     timer.value = secondsToTime(remainingTime);
+// }

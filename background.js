@@ -40,8 +40,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 function updateTimer() {
     const remainingTime = Math.max(targetTime - Math.floor((Date.now() / 1000)), 0);
-    // Handle updating the timer display in the popup if needed
-    // chrome.runtime.sendMessage({ action: "updateTimerDisplay", remainingTime });
+    chrome.runtime.sendMessage({ action: "updateTimerDisplay", remainingTime });
     if (remainingTime === 0) {
         if (isRunning) {
             timeOver();
