@@ -2,56 +2,31 @@ document.getElementById("start").addEventListener("click", startTimer);
 document.getElementById("pause").addEventListener("click", stopTimer);
 document.getElementById("reset").addEventListener("click", resetTimer);
     
-
 let timer = document.getElementById("timer");
 
 
-// * Start the Timer
+// ! --- Buttons ---
+
 function startTimer() {
     const duration = timer.value;
     let targetTime = Math.floor((Date.now() / 1000)) + timeToSeconds(duration);
     
-    // ! ------------------- Log -------------------
-    console.log(duration);
-
-    
-    
-
-    // let timerInterval = setInterval(function () {
-         // updateTimer();
-    //     if (targetTime <= Math.floor((Date.now() / 1000))) {
-    //         clearInterval(timerInterval);
-    //         timerInterval = undefined;
-             // updateTimer();
-    //     }
-    // }, 1000);
-
     // Send a message to background.js to start the timer
     chrome.runtime.sendMessage({ action: "startTimer", targetTime });
-
 }
 
 function stopTimer() {
-    clearInterval(timerInterval);
-    timerInterval = undefined;
-    isRunning = false;
-    updateTimer();
-
-    // Send a message to background.js to stop the timer
+    clearInterval();
     chrome.runtime.sendMessage({ action: "stopTimer" });
 }
 
 function resetTimer() {
-    timer.value = "";
-    clearInterval(timerInterval);
-    timerInterval = undefined;
-    isRunning = false;
-    targetTime = 0;
-    updateTimer();
-
-    // Send a message to background.js to reset the timer
+    clearInterval();
     chrome.runtime.sendMessage({ action: "resetTimer" });
 }
+
+
+// ! --- Background ---
 
 // * Update the timer display
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
@@ -63,7 +38,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 
-// ? --- Helper functions ---
+// ! --- Helper functions ---
 
 // * Functions to convert time in the format "hh: mm: ss" to seconds and back
 function timeToSeconds(duration) {
@@ -82,12 +57,3 @@ function clearInterval() {
     timer.value = "";    
 }
 
-// // * Update the timer display
-// function updateTimer() {
-//     const remainingTime = Math.max(targetTime - Math.floor((Date.now() / 1000)), 0);
-//     // if (remainingTime === 0) {
-//     //     clearInterval(timerInterval);
-//     //     isRunning = false;
-//     // }
-//     timer.value = secondsToTime(remainingTime);
-// }

@@ -2,41 +2,43 @@ let timerInterval;
 let targetTime;
 let isRunning = false;
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-
-    if (message.action === "startTimer") {
-
-        if (!isRunning) {
-            isRunning = true;
-            targetTime = message.targetTime;
-            timerInterval = setInterval(function () {
-                updateTimer();
-                if (targetTime <= Math.floor((Date.now() / 1000))) {
-                    clearInterval(timerInterval);
-                    timerInterval = undefined;
-                    isRunning = false;
+while (true) {
+    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    
+        if (message.action === "startTimer") {
+    
+            if (!isRunning) {
+                isRunning = true;
+                targetTime = message.targetTime;
+                timerInterval = setInterval(function () {
                     updateTimer();
-                }
-            }, 1000);
+                    if (targetTime <= Math.floor((Date.now() / 1000))) {
+                        clearInterval(timerInterval);
+                        timerInterval = undefined;
+                        isRunning = false;
+                        updateTimer();
+                    }
+                }, 1000);
+            }
+    
+        } else if (message.action === "stopTimer") {
+    
+            clearInterval(timerInterval);
+            timerInterval = undefined;
+            isRunning = false;
+            updateTimer();
+    
+        } else if (message.action === "resetTimer") {
+    
+            clearInterval(timerInterval);
+            timerInterval = undefined;
+            isRunning = false;
+            targetTime = 0;
+            updateTimer();
+            
         }
-
-    } else if (message.action === "stopTimer") {
-
-        clearInterval(timerInterval);
-        timerInterval = undefined;
-        isRunning = false;
-        updateTimer();
-
-    } else if (message.action === "resetTimer") {
-
-        clearInterval(timerInterval);
-        timerInterval = undefined;
-        isRunning = false;
-        targetTime = 0;
-        updateTimer();
-        
-    }
-});
+    });
+}
 
 function updateTimer() {
     const remainingTime = Math.max(targetTime - Math.floor((Date.now() / 1000)), 0);
