@@ -9,6 +9,9 @@ let timer = document.getElementById("timer");
 
 function startTimer() {
     const duration = timer.value;
+    if (timeToSeconds(duration) <= 0) {
+        return;
+    }
     let targetTime = Math.floor((Date.now() / 1000)) + timeToSeconds(duration);
     
     // Send a message to background.js to start the timer
@@ -20,8 +23,8 @@ function stopTimer() {
 }
 
 function resetTimer() {
-    clearTimer();
     chrome.runtime.sendMessage({ action: "resetTimer" });
+    clearTimer();
 }
 
 
