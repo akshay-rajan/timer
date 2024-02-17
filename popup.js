@@ -16,12 +16,11 @@ function startTimer() {
 }
 
 function stopTimer() {
-    clearInterval();
     chrome.runtime.sendMessage({ action: "stopTimer" });
 }
 
 function resetTimer() {
-    clearInterval();
+    clearTimer();
     chrome.runtime.sendMessage({ action: "resetTimer" });
 }
 
@@ -53,7 +52,7 @@ function secondsToTime(seconds) {
 }
 
 // * Clear the timer
-function clearInterval() {
+function clearTimer() {
     timer.value = "";    
 }
 

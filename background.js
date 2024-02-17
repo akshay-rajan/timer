@@ -2,7 +2,7 @@ let timerInterval;
 let targetTime;
 let isRunning = false;
 
-while (true) {
+// while (true) {
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     
         if (message.action === "startTimer") {
@@ -38,7 +38,7 @@ while (true) {
             
         }
     });
-}
+// }
 
 function updateTimer() {
     const remainingTime = Math.max(targetTime - Math.floor((Date.now() / 1000)), 0);
