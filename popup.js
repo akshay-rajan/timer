@@ -54,6 +54,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
     if (message.action === "updateTimerDisplay") {
         timer.value = secondsToTime(message.remainingTime);
+        if (message.remainingTime === 0) {
+            timer.value = "";
+            if (start.hasAttribute("hidden")) {
+                start.removeAttribute("hidden");
+                pause.setAttribute("hidden", "true");
+            }
+        }
     }
 
 });
