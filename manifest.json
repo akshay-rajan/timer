@@ -11,9 +11,9 @@
     "web_accessible_resources": [
       {
         "resources": [
-          "assets/start.png",
-          "assets/pause.png",
-          "assets/reset.png"
+          "assets/start.jpg",
+          "assets/pause.jpg",
+          "assets/reset.jpg"
         ],
         "matches": ["<all_urls>"]
       }
@@ -21,9 +21,9 @@
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "16": "assets/timer.png",
-        "24": "assets/timer.png",
-        "32": "assets/timer.png"
+        "16": "assets/favicon.png",
+        "24": "assets/favicon.png",
+        "32": "assets/favicon.png"
       },
       "default_title": "Timer for Chrome"
     }
